@@ -7,7 +7,13 @@ library(leaflet)
 library(sf)
 library(dplyr)
 # For image carousel on home page
-library(slickR)
+# For image carousel on home page (optional)
+if (requireNamespace("slickR", quietly = TRUE)) {
+  library(slickR)
+  slick_available <- TRUE
+} else {
+  slick_available <- FALSE
+}
 # For API calls in Assistant tab
 library(httr)
 
@@ -35,7 +41,7 @@ ui <- navbarPage(
   tabPanel(
     "Accueil",
     # Carousel of images (replace URLs with images from the PUDC site)
-    slickROutput("carousel", width = "80%")
+    uiOutput("carousel")
   ),
   tabPanel(
     "Suivi Technique",
@@ -83,15 +89,24 @@ ui <- navbarPage(
 # ---- SERVER ----
 server <- function(input, output, session) {
   # ----- Page Accueil -----
-  output$carousel <- renderSlickR({
-    slickR(
-      list(
-        img(src = "https://via.placeholder.com/800x400?text=Pistes+rurales"),
-        img(src = "https://via.placeholder.com/800x400?text=Electrification"),
-        img(src = "https://via.placeholder.com/800x400?text=Postes+de+sante")
-      ),
-      slideIdx = TRUE
-    )
+  output$carousel <- renderUI({
+    if (slick_available) {
+      slickR::slickR(
+        list(
+          img(src = "https://via.placeholder.com/800x400?text=Pistes+rurales"),
+          img(src = "https://via.placeholder.com/800x400?text=Electrification"),
+          img(src = "https://via.placeholder.com/800x400?text=Postes+de+sante")
+        ),
+        slideIdx = TRUE
+      )
+    } else {
+      tagList(
+        tags$p("Package slickR non installé. Installez-le pour activer le carrousel."),
+        img(src = "https://via.placeholder.com/800x400?text=Pistes+rurales", style = "width:80%;"),
+        img(src = "https://via.placeholder.com/800x400?text=Electrification", style = "width:80%;"),
+        img(src = "https://via.placeholder.com/800x400?text=Postes+de+sante", style = "width:80%;")
+      )
+    }
   })
 
   # ----- Suivi Technique -----
