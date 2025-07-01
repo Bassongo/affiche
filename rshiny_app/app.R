@@ -35,6 +35,75 @@ ppm_data        <- read_sheet("Analyse par Projet")
 perf_data       <- read_sheet("PERFORMANCE GLOBALE 2025")
 resume_data     <- read_sheet("TEC. BUDGETAIRE. PPM ")
 
+# Adapt column names from the Excel sheets to the names expected by the app
+if (!is.null(tech_data)) {
+  names(tech_data) <- trimws(names(tech_data))
+  if (!"Projet" %in% names(tech_data) && "Financement" %in% names(tech_data))
+    tech_data <- rename(tech_data, Projet = Financement)
+  obj_cols  <- grep("^Objectif", names(tech_data), value = TRUE)
+  real_cols <- grep("^R[ée]alisation", names(tech_data), value = TRUE)
+  if (!"Objectifs" %in% names(tech_data) && length(obj_cols) > 0)
+    tech_data$Objectifs <- rowMeans(tech_data[obj_cols], na.rm = TRUE)
+  if (!"Réalisations" %in% names(tech_data) && length(real_cols) > 0)
+    tech_data$Réalisations <- rowMeans(tech_data[real_cols], na.rm = TRUE)
+}
+
+if (!is.null(budget_repart)) {
+  names(budget_repart) <- trimws(names(budget_repart))
+  if (!"Projet" %in% names(budget_repart) && "Volet" %in% names(budget_repart))
+    budget_repart <- rename(budget_repart, Projet = Volet)
+  if (!"Budget" %in% names(budget_repart) && "Budget (FCFA)" %in% names(budget_repart))
+    budget_repart$Budget <- budget_repart$`Budget (FCFA)`
+}
+
+if (!is.null(perf_data)) {
+  names(perf_data) <- trimws(names(perf_data))
+  if (!"Cible_globale" %in% names(perf_data)) {
+    cible <- grep("cible", names(perf_data), ignore.case = TRUE, value = TRUE)
+    if (length(cible) > 0) perf_data$Cible_globale <- perf_data[[cible[1]]]
+  }
+  if (!"Realisation_globale" %in% names(perf_data)) {
+    real <- grep("r[ée]alisation", names(perf_data), ignore.case = TRUE, value = TRUE)
+    if (length(real) > 0) perf_data$Realisation_globale <- perf_data[[real[1]]]
+  }
+}
+
+if (!is.null(ppm_data)) {
+  names(ppm_data) <- trimws(names(ppm_data))
+  if (!"Projet" %in% names(ppm_data)) {
+    proj <- grep("projet", names(ppm_data), ignore.case = TRUE, value = TRUE)
+    if (length(proj) > 0) names(ppm_data)[names(ppm_data) == proj[1]] <- "Projet"
+  }
+  if (!"Performance" %in% names(ppm_data)) {
+    perf <- grep("perf", names(ppm_data), ignore.case = TRUE, value = TRUE)
+    if (length(perf) > 0) names(ppm_data)[names(ppm_data) == perf[1]] <- "Performance"
+  }
+}
+
+if (!is.null(budget_exec)) {
+  names(budget_exec) <- trimws(names(budget_exec))
+  if (!"Montant" %in% names(budget_exec)) {
+    mnt <- grep("montant", names(budget_exec), ignore.case = TRUE, value = TRUE)
+    if (length(mnt) > 0) budget_exec$Montant <- budget_exec[[mnt[1]]]
+  }
+}
+
+if (!is.null(decaissements)) {
+  names(decaissements) <- trimws(names(decaissements))
+  if (!"Montant" %in% names(decaissements)) {
+    mnt <- grep("montant", names(decaissements), ignore.case = TRUE, value = TRUE)
+    if (length(mnt) > 0) decaissements$Montant <- decaissements[[mnt[1]]]
+  }
+}
+
+if (!is.null(resume_data)) {
+  names(resume_data) <- trimws(names(resume_data))
+  if (!"Element" %in% names(resume_data)) {
+    el <- grep("element", names(resume_data), ignore.case = TRUE, value = TRUE)
+    if (length(el) > 0) resume_data$Element <- resume_data[[el[1]]]
+  }
+}
+
 
 # ---- UI ----
 ui <- navbarPage(
