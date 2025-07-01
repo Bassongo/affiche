@@ -18,7 +18,8 @@ if (requireNamespace("slickR", quietly = TRUE)) {
 library(httr)
 
 # Path to the Excel workbook containing all PTBA data
-excel_path <- "data/PTBA_2025.xlsx"
+# Updated Excel file (added to the data directory)
+excel_path <- "data/PUDC_SUIVI TRIMESTRE  DU PTBA 2025 VF.xlsx"
 
 # Helper function to safely read sheets (returns NULL if file missing)
 read_sheet <- function(sheet) {
@@ -26,13 +27,13 @@ read_sheet <- function(sheet) {
 }
 
 # Load datasets (they may be NULL if the Excel file is absent)
-tech_data       <- read_sheet("Exécution technique du PTBA 2025")
-budget_repart   <- read_sheet("Répartition du budget PTBA par projet")
-budget_exec     <- read_sheet("Exécution budgétaire PTBA 2025")
-decaissements   <- read_sheet("Décaissements globaux 2025")
+tech_data       <- read_sheet("Execution technique  PTBA 2025")
+budget_repart   <- read_sheet("Repartit budget PTBA par projet")
+budget_exec     <- read_sheet("Execution budgetaire PTBA 2025")
+decaissements   <- read_sheet("DECAISSEMENT GLOBAUX 2025")
 ppm_data        <- read_sheet("Analyse par Projet")
 perf_data       <- read_sheet("PERFORMANCE GLOBALE 2025")
-resume_data     <- read_sheet("TEC. BUDGETAIRE. PPM")
+resume_data     <- read_sheet("TEC. BUDGETAIRE. PPM ")
 
 
 # ---- UI ----
