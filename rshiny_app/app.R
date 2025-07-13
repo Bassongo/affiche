@@ -73,16 +73,14 @@ resume_page <- function() {
 assistant_page <- function() {
   div(h2("Page en construction"))
 }
-
-#---- Router definition ----
-router <- make_router(
+#---- Routes ----
+routes <- list(
   route("accueil", accueil_page),
   route("financier", financier_page),
   route("indicateurs", indicateurs_page),
   route("resume", resume_page),
   route("assistant", assistant_page)
 )
-
 #---- Main UI ----
 ui <- fluidPage(
   tags$head(
@@ -117,12 +115,12 @@ ui <- fluidPage(
           tags$a(href = route_link("assistant"), "Assistant")
       )
   ),
-  router_ui(router)
+  router_ui(routes)
 )
 
 #---- Server ----
 server <- function(input, output, session) {
-  router_server(router)
+  router_server(routes)
 
   data <- read_excel("data/Base0.xlsx")
 
