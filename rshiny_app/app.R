@@ -74,7 +74,9 @@ assistant_page <- function() {
   div(h2("Page en construction"))
 }
 #---- Routes ----
-routes <- list(
+# Define a router with a root path so the app loads the home page
+router <- make_router(
+  route("/", accueil_page),
   route("accueil", accueil_page),
   route("financier", financier_page),
   route("indicateurs", indicateurs_page),
@@ -115,12 +117,12 @@ ui <- fluidPage(
           tags$a(href = route_link("assistant"), "Assistant")
       )
   ),
-  router_ui(routes)
+  router_ui(router)
 )
 
 #---- Server ----
 server <- function(input, output, session) {
-  router_server(routes)
+  router_server(router)
 
   data <- read_excel("data/Base0.xlsx")
 
