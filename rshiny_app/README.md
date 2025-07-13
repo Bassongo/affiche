@@ -1,11 +1,11 @@
 # R Shiny Example App
 
-This repository now contains a minimal Shiny application. Run the app using `shiny::runApp('rshiny_app')` in R.
-
-The datasets are loaded from `rshiny_app/data/PUDC_SUIVI TRIMESTRE  DU PTBA 2025 VF.xlsx`.
-
-The home page uses the **slickR** package to display an image carousel. The app now detects if this package is missing and falls back to static images. For the full carousel experience install slickR with:
+Run the application in R with:
 
 ```R
-install.packages("slickR")
+shiny::runApp('rshiny_app')
 ```
+
+The app now uses **shiny.router** to provide a modern multi-page navigation bar. Pages are accessible via links like `#/accueil` or `#/financier` without reloading the whole interface.
+
+Datasets are loaded from `rshiny_app/data/Base0.xlsx`. The home page displays an image carousel powered by the **slickR** package when available; otherwise static images are shown.
