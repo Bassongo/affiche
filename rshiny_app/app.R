@@ -76,11 +76,11 @@ assistant_page <- function() {
 
 #---- Router definition ----
 router <- make_router(
-  route("accueil", accueil_page()),
-  route("financier", financier_page()),
-  route("indicateurs", indicateurs_page()),
-  route("resume", resume_page()),
-  route("assistant", assistant_page())
+  route("accueil", accueil_page),
+  route("financier", financier_page),
+  route("indicateurs", indicateurs_page),
+  route("resume", resume_page),
+  route("assistant", assistant_page)
 )
 
 #---- Main UI ----
