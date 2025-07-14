@@ -172,9 +172,30 @@ financier_page <- function() {
 # Page Indicateurs
 indicateurs_page <- function() {
   div(
-    tags$h2("📊 Indicateurs", style = "color: #003366; text-align: center; margin: 20px 0;"),
-    div(style = "background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);",
-        tags$h4("🚧 Page en cours de développement", style = "color: #558C7C; text-align: center;")
+    h2("Réalisation globale et annuelle des indicateurs", style = "text-align:center; margin-top:20px;"),
+    fluidRow(
+      column(6,
+        div(style="margin:10px;",
+          plotlyOutput("pie_financement")
+        )
+      ),
+      column(6,
+        div(style="margin:10px;",
+          plotlyOutput("bar_region")
+        )
+      )
+    ),
+    fluidRow(
+      column(6,
+        div(style="margin:10px;",
+          plotlyOutput("line_evolution")
+        )
+      ),
+      column(6,
+        div(style="margin:10px;",
+          uiOutput("obs_alertes")
+        )
+      )
     )
   )
 }
@@ -203,7 +224,7 @@ ui <- fluidPage(
       div(class = "navbar-menu",
           actionLink("nav_accueil", "🏠 Accueil"),
           actionLink("nav_financier", "💰 Suivi Financier"),
-          actionLink("nav_indicateurs", "📊 Indicateurs"),
+          actionLink("nav_indicateurs", "📊 Réalisation globale des indicateurs"),
           actionLink("nav_assistant", "🤖 Assistant IA")
       )
   ),
