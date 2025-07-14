@@ -49,7 +49,7 @@ server <- function(input, output, session) {
   })
 
   # Initialisation des modules
-  init_financier_outputs(output, app_data)
+  init_financier_outputs(input, output, app_data)
   init_financier_observers(input, output, session, app_data)
   init_indicateurs_outputs(output, app_data, input)
   init_indicateurs_observers(input, output, session, app_data)

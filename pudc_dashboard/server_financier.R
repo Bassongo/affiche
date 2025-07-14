@@ -3,7 +3,7 @@
 # ===============================
 
 # Initialisation des outputs financiers
-init_financier_outputs <- function(output, app_data) {
+init_financier_outputs <- function(input, output, app_data) {
   # Graphique barres par trimestre
   output$bar_trimestre_financier <- renderPlotly({
     cat("📊 Génération du graphique en barres\n")
