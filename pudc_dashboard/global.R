@@ -2,6 +2,20 @@
 # GLOBAL.R - CONFIGURATION ET DONNÉES PUDC 2025 - VERSION CORRIGÉE
 # =============================================================================
 
+# ===============================
+# Configuration globale de l'application
+# ===============================
+
+# Chargement des variables d'environnement
+if (file.exists(".Renviron")) {
+  readRenviron(".Renviron")
+}
+
+# Vérification du token Groq
+if (Sys.getenv("GROQ_API_KEY") == "") {
+  cat("⚠️  Token Groq non trouvé. L'assistant IA ne fonctionnera pas.\n")
+}
+
 # =============================================================================
 # CHARGEMENT DES PACKAGES DANS L'ORDRE OPTIMAL POUR ÉVITER LES CONFLITS
 # =============================================================================
