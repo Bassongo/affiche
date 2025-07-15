@@ -12,6 +12,9 @@ init_financier_outputs <- function(input, output, app_data) {
       return(plot_ly() %>% layout(title = "Données non disponibles"))
     }
     execution_data <- data$execution_budgetaire
+    if (!is.data.frame(execution_data)) {
+      validate(HTML("<b>Erreur :</b> le jeu de donn\u00e9es n'est pas valide."))
+    }
     projet_selectionne <- input$projet_select
     if (is.null(projet_selectionne) || projet_selectionne == "") {
       projet_selectionne <- "PUDC-Phase2/ Budget 2025 Etat"
@@ -51,6 +54,9 @@ init_financier_outputs <- function(input, output, app_data) {
   output$pie_budget_volet <- renderPlotly({
     req(app_data())
     budget_data <- app_data()$budget_par_projet
+    if (!is.data.frame(budget_data)) {
+      validate(HTML("<b>Erreur :</b> donn\u00e9es budgetaires invalides."))
+    }
     df_volet <- budget_data %>%
       group_by(Volet) %>%
       summarise(Budget_Total = sum(Budget_FCFA, na.rm = TRUE), .groups = 'drop') %>%
