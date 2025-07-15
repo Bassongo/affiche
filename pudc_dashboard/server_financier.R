@@ -12,9 +12,6 @@ init_financier_outputs <- function(input, output, app_data) {
       return(plot_ly() %>% layout(title = "Données non disponibles"))
     }
     execution_data <- data$execution_budgetaire
-    if (!is.data.frame(execution_data)) {
-      validate(HTML("<b>Erreur :</b> le jeu de donn\u00e9es n'est pas valide."))
-    }
     projet_selectionne <- input$projet_select
     if (is.null(projet_selectionne) || projet_selectionne == "") {
       projet_selectionne <- "PUDC-Phase2/ Budget 2025 Etat"
@@ -49,14 +46,11 @@ init_financier_outputs <- function(input, output, app_data) {
       ) %>%
       config(displayModeBar = FALSE)
   })
-
+  
   # Camembert par volet
   output$pie_budget_volet <- renderPlotly({
     req(app_data())
     budget_data <- app_data()$budget_par_projet
-    if (!is.data.frame(budget_data)) {
-      validate(HTML("<b>Erreur :</b> donn\u00e9es budgetaires invalides."))
-    }
     df_volet <- budget_data %>%
       group_by(Volet) %>%
       summarise(Budget_Total = sum(Budget_FCFA, na.rm = TRUE), .groups = 'drop') %>%
@@ -82,7 +76,7 @@ init_financier_outputs <- function(input, output, app_data) {
       ) %>%
       config(displayModeBar = FALSE)
   })
-
+  
   # Table simple (non utilisée mais conservée)
   output$table_execution_simple <- renderTable({
     req(app_data())
@@ -93,7 +87,7 @@ init_financier_outputs <- function(input, output, app_data) {
              `Taux (%)` = round((get("Montant_reel_decaissé") / Budget_PTBA_2025_FCFA) * 100, 1)) %>%
       select(Projet, Source, Trimestre, `Budget (M FCFA)`, `Décaissé (M FCFA)`, `Taux (%)`)
   }, striped = TRUE, hover = TRUE, bordered = TRUE, spacing = 'xs')
-
+  
   # Tableau interactif complet
   output$table_execution_complete <- DT::renderDataTable({
     req(app_data())
@@ -118,7 +112,7 @@ init_financier_outputs <- function(input, output, app_data) {
     ) %>%
       DT::formatStyle('Taux (%)', backgroundColor = DT::styleInterval(c(50, 80), values = c("#ffe6e6", "#fff2e6", "#e6ffe6")))
   }, server = FALSE)
-
+  
   # Statistiques réactives
   output$total_budget <- renderText({
     req(app_data())
@@ -127,7 +121,7 @@ init_financier_outputs <- function(input, output, app_data) {
       paste0(round(total/1000000000, 1), " Md")
     }, error = function(e) {"N/A"})
   })
-
+  
   output$total_decaisse <- renderText({
     req(app_data())
     tryCatch({
@@ -140,7 +134,7 @@ init_financier_outputs <- function(input, output, app_data) {
       }
     }, error = function(e) {"N/A"})
   })
-
+  
   output$taux_execution <- renderText({
     req(app_data())
     tryCatch({
@@ -153,7 +147,7 @@ init_financier_outputs <- function(input, output, app_data) {
       }
     }, error = function(e) {"N/A"})
   })
-
+  
   output$nb_projets <- renderText({
     req(app_data())
     tryCatch({
@@ -165,7 +159,7 @@ init_financier_outputs <- function(input, output, app_data) {
       }
     }, error = function(e) {"N/A"})
   })
-
+  
   # Téléchargement CSV
   output$download_execution_csv <- downloadHandler(
     filename = function() { paste0("execution_budgetaire_PUDC_", Sys.Date(), ".csv") },
