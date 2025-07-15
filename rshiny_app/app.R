@@ -625,6 +625,9 @@ server <- function(input, output, session) {
     }
     
     execution_data <- data$execution_budgetaire
+    if (!is.data.frame(execution_data)) {
+      validate(HTML("<b>Erreur :</b> le jeu de donn\u00e9es n'est pas valide."))
+    }
     
     # Utiliser le projet sélectionné ou le premier par défaut
     projet_selectionne <- input$projet_select
@@ -682,6 +685,9 @@ server <- function(input, output, session) {
     req(app_data())
     
     budget_data <- app_data()$budget_par_projet
+    if (!is.data.frame(budget_data)) {
+      validate(HTML("<b>Erreur :</b> donn\u00e9es budgetaires invalides."))
+    }
     df_volet <- budget_data %>%
       group_by(Volet) %>%
       summarise(Budget_Total = sum(Budget_FCFA, na.rm = TRUE), .groups = 'drop') %>%
