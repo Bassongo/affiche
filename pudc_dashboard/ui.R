@@ -204,9 +204,9 @@ indicateurs_page <- function() {
 assistant_page <- function() {
   div(
     tags$h2("🤖 Assistant IA", style = "color: #003366; text-align: center; margin: 20px 0;"),
-    div(style = "background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);",
-        tags$h4("🚧 Page en cours de développement", style = "color: #558C7C; text-align: center;")
-    )
+    uiOutput("chat_history"),
+    textInput("user_question", "Posez votre question à l'IA :", ""),
+    actionButton("ask_ia", "Envoyer", icon = icon("paper-plane"))
   )
 }
 

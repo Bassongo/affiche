@@ -5,6 +5,7 @@ source("global.R")
 source("ui.R")
 source("server_financier.R")
 source("server_indicateurs.R")
+source("server_assistant_ia.R")
 
 server <- function(input, output, session) {
   # Chargement des données
@@ -53,6 +54,7 @@ server <- function(input, output, session) {
   init_financier_observers(input, output, session, app_data)
   init_indicateurs_outputs(output, app_data, input)
   init_indicateurs_observers(input, output, session, app_data)
+  init_assistant_ia_outputs(input, output, session, app_data)
 }
 
 shinyApp(ui = ui, server = server)
