@@ -2,69 +2,94 @@
 # Pages de l'application
 # ===============================
 
-# Page d'accueil avec carrousel slickR
+# Page d'accueil avec carrousel slickR (version avancée)
 accueil_page <- function() {
   div(
-    br(),
-    column(12, align = "center",
-           tags$img(src = "pudc_logo.png", height = "100px"),
-           br(),
-           div(style = "background-color: #558C7C; color: white; padding: 20px; border-radius: 10px; margin: 20px 0;",
-               tags$h1("Tableau de bord de suivi",
-                       style = "font-weight:bold; font-size: 36px; margin:0;"),
-               tags$h2("PTBA DU PUDC 2025",
-                       style = "margin:0; font-size: 24px;")
-           ),
-           br(),
-           div(style = "margin: 40px auto; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 1100px; background: white; padding: 20px;",
-               slickROutput("carousel", height = "500px", width = "100%")
-           ),
-           br(), br(),
-           div(style = "border: 1px solid #003366; background-color: #f0f8ff; display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; margin-bottom: 20px; border-radius: 10px;",
-               tags$h3("Nos Réalisations",
-                       style = "color: #003366; font-weight: bold; margin: 0;"),
-               div(
-                 tags$img(src = "miniature1.png", height = "30px", style = "margin-left: 10px; border-radius: 3px;"),
-                 tags$img(src = "miniature2.png", height = "30px", style = "margin-left: 10px; border-radius: 3px;"),
-                 tags$img(src = "miniature3.png", height = "30px", style = "margin-left: 10px; border-radius: 3px;")
-               )
-           ),
-           tags$div(
-             style = "margin: 80px 0 40px 0;",
-             tags$h4("Galerie de nos Réalisations", style = "color: #003366; text-align: center; margin-bottom: 40px; font-size: 22px; font-weight: bold;"),
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "app0.css"),
+      tags$script(HTML("// Fonction onglets PUDC\nshowPudcTab = function(tab){\n  document.querySelectorAll('.pudc-tab-content').forEach(el=>el.classList.remove('active'));\n  document.querySelectorAll('.pudc-tab').forEach(el=>el.classList.remove('active'));\n  document.getElementById('pudc-' + tab).classList.add('active');\n}"))
+    ),
+    div(
+      class = "page",
+      div(class = "floating-particles",
+          tags$div(class = "particle", style = "left:10%;animation-delay:0s;"),
+          tags$div(class = "particle", style = "left:20%;animation-delay:2s;"),
+          tags$div(class = "particle", style = "left:30%;animation-delay:4s;"),
+          tags$div(class = "particle", style = "left:40%;animation-delay:1s;"),
+          tags$div(class = "particle", style = "left:50%;animation-delay:3s;"),
+          tags$div(class = "particle", style = "left:60%;animation-delay:5s;"),
+          tags$div(class = "particle", style = "left:70%;animation-delay:1.5s;"),
+          tags$div(class = "particle", style = "left:80%;animation-delay:3.5s;"),
+          tags$div(class = "particle", style = "left:90%;animation-delay:0.5s;")
+      ),
+      br(),
+      column(12, align = "center",
+             div(class = "main-logo", tags$img(src = "pudc_logo.png", height = "100px")),
+             br(),
+             div(class = "animated-title",
+                 tags$h1(class = "typing-title", "Tableau de bord de suivi"),
+                 tags$h2(class = "sliding-subtitle", "PTBA DU PUDC 2025")
+             ),
+             br(),
+             div(class = "vertical-scroll-container",
+                 div(class = "vertical-scroll-track",
+                     div(class = "scroll-item", style = "background-image:url('electrification.png');", div(class = "scroll-text", "Électrification Rurale")),
+                     div(class = "scroll-item", style = "background-image:url('piste.png');", div(class = "scroll-text", "Désenclavement des Zones Rurales")),
+                     div(class = "scroll-item", style = "background-image:url('poste_sante.png');", div(class = "scroll-text", "Amélioration de la Santé")),
+                     div(class = "scroll-item", style = "background-image:url('real.png');", div(class = "scroll-text", "Réalisations Concrètes")),
+                     div(class = "scroll-item", style = "background-image:url('electrification.png');", div(class = "scroll-text", "Électrification Rurale")),
+                     div(class = "scroll-item", style = "background-image:url('piste.png');", div(class = "scroll-text", "Désenclavement des Zones Rurales")),
+                     div(class = "scroll-item", style = "background-image:url('poste_sante.png');", div(class = "scroll-text", "Amélioration de la Santé")),
+                     div(class = "scroll-item", style = "background-image:url('real.png');", div(class = "scroll-text", "Réalisations Concrètes"))
+                 )
+             ),
+             div(class = "pudc-presentation",
+                 div(class = "pudc-content",
+                     div(class = "pudc-tabs",
+                         tags$button(class = "pudc-tab active", onclick = "showPudcTab('presentation')", "Présentation"),
+                         tags$button(class = "pudc-tab", onclick = "showPudcTab('missions')", "Missions"),
+                         tags$button(class = "pudc-tab", onclick = "showPudcTab('objectifs')", "Objectifs"),
+                         tags$button(class = "pudc-tab", onclick = "showPudcTab('resultats')", "Résultats")
+                     ),
+                     div(id = "pudc-presentation", class = "pudc-tab-content active",
+                         div(class = "pudc-title", "Programme d'Urgence de Développement Communautaire"),
+                         div(class = "pudc-text", "Le PUDC est un programme ambitieux initié par le Gouvernement du Sénégalais pour accélérer le développement des communautés rurales."),
+                         div(class = "pudc-highlight", "\"Une approche intégrée pour un développement durable et inclusif des territoires sénégalais\""),
+                         div(class = "pudc-stats",
+                             div(class = "pudc-stat", span(class = "pudc-stat-number", "14"), span(class = "pudc-stat-label", "Régions")),
+                             div(class = "pudc-stat", span(class = "pudc-stat-number", "557"), span(class = "pudc-stat-label", "Communes")),
+                             div(class = "pudc-stat", span(class = "pudc-stat-number", "8M"), span(class = "pudc-stat-label", "Bénéficiaires"))
+                         )
+                     ),
+                     div(id = "pudc-missions", class = "pudc-tab-content",
+                         div(class = "pudc-title", "Missions du PUDC"),
+                         div(class = "pudc-text", "Le PUDC a pour mission principale de contribuer à l'amélioration des conditions de vie des populations rurales à travers le développement d'infrastructures de base et l'accès aux services essentiels.")),
+                     div(id = "pudc-objectifs", class = "pudc-tab-content",
+                         div(class = "pudc-title", "Objectifs Stratégiques"),
+                         div(class = "pudc-text", "• Désenclavement des zones rurales\n• Électrification rurale\n• Accès à l'eau potable\n• Amélioration de la santé et de l'éducation\n• Développement économique local")),
+                     div(id = "pudc-resultats", class = "pudc-tab-content",
+                         div(class = "pudc-title", "Résultats atteints"),
+                         div(class = "pudc-text", "Le PUDC a permis d'améliorer significativement les conditions de vie de millions de Sénégalais à travers des réalisations concrètes dans tous les secteurs prioritaires.")
+                     )
+                 )
+             ),
+             br(),
+             div(class = "carousel-container", slickROutput("carousel", width = "80%", height = "400px")),
+             br(),
              fluidRow(
-               column(2, div(style = "margin-bottom: 20px;",
-                             tags$img(src = "miniature1.png", width = "100%", style = "border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition:transform 0.3s ease; cursor: pointer;", onclick = "this.style.transform = this.style.transform ? '' : 'scale(1.08)'"),
-                             tags$p("Renforcement des infrastructures", style = "text-align:center; font-size:14px; margin-top: 12px; color: #003366; font-weight: 600; line-height: 1.3;")
-               )),
-               column(2, div(style = "margin-bottom: 20px;",
-                             tags$img(src = "miniature2.png", width = "100%", style = "border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition:transform 0.3s ease; cursor: pointer;", onclick = "this.style.transform = this.style.transform ? '' : 'scale(1.08)'"),
-                             tags$p("Électrification rurale", style = "text-align:center; font-size:14px; margin-top: 12px; color: #003366; font-weight: 600; line-height: 1.3;")
-               )),
-               column(2, div(style = "margin-bottom: 20px;",
-                             tags$img(src = "miniature3.png", width = "100%", style = "border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition:transform 0.3s ease; cursor: pointer;", onclick = "this.style.transform = this.style.transform ? '' : 'scale(1.08)'"),
-                             tags$p("Accès à l'eau potable", style = "text-align:center; font-size:14px; margin-top: 12px; color: #003366; font-weight: 600; line-height: 1.3;")
-               )),
-               column(2, div(style = "margin-bottom: 20px;",
-                             tags$img(src = "miniature4.png", width = "100%", style = "border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition:transform 0.3s ease; cursor: pointer;", onclick = "this.style.transform = this.style.transform ? '' : 'scale(1.08)'"),
-                             tags$p("Santé communautaire", style = "text-align:center; font-size:14px; margin-top: 12px; color: #003366; font-weight: 600; line-height: 1.3;")
-               )),
-               column(2, div(style = "margin-bottom: 20px;",
-                             tags$img(src = "miniature5.png", width = "100%", style = "border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition:transform 0.3s ease; cursor: pointer;", onclick = "this.style.transform = this.style.transform ? '' : 'scale(1.08)'"),
-                             tags$p("Hydraulique villageoise", style = "text-align:center; font-size:14px; margin-top: 12px; color: #003366; font-weight: 600; line-height: 1.3;")
-               )),
-               column(2, div(style = "margin-bottom: 20px;",
-                             tags$img(src = "miniature6.png", width = "100%", style = "border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition:transform 0.3s ease; cursor: pointer;", onclick = "this.style.transform = this.style.transform ? '' : 'scale(1.08)'"),
-                             tags$p("Autres réalisations", style = "text-align:center; font-size:14px; margin-top: 12px; color: #003366; font-weight: 600; line-height: 1.3;")
-               ))
-             )
-           ),
-           br(), br(),
-           div(style = "background-color: #003366; color: white; padding: 20px; font-size: 14px; border-radius: 10px;",
-               "Programme d'Urgence de Développement Communautaire | Contact | Mentions légales",
-               tags$br(),
-               "Ministère du Développement communautaire, de la Solidarité nationale et de l'Équité territoriale"
-           )
+               column(2, div(class = "miniature-container miniature-1 shine-effect", tags$img(src = "miniature1.png", width = "100%"))),
+               column(2, div(class = "miniature-container miniature-2 shine-effect", tags$img(src = "miniature2.png", width = "100%"))),
+               column(2, div(class = "miniature-container miniature-3 shine-effect", tags$img(src = "miniature3.png", width = "100%"))),
+               column(2, div(class = "miniature-container miniature-4 shine-effect", tags$img(src = "miniature4.png", width = "100%"))),
+               column(2, div(class = "miniature-container miniature-5 shine-effect", tags$img(src = "miniature5.png", width = "100%"))),
+               column(2, div(class = "miniature-container miniature-6 shine-effect", tags$img(src = "miniature6.png", width = "100%")))
+             ),
+             br(),
+             div(class = "animated-footer",
+                 "Programme d'Urgence de Développement Communautaire | Contact | Mentions légales",
+                 tags$br(),
+                 "Ministère du Développement communautaire, de la Solidarité nationale et de l'Équité territoriale")
+      )
     )
   )
 }
@@ -210,6 +235,81 @@ assistant_page <- function() {
   )
 }
 
+# Page Suivi Technique
+technique_page <- function() {
+  div(
+    tags$head(tags$link(rel="stylesheet", href="app0.css")),
+    div(
+      class="page",
+      div(class="tech-particles",
+          tags$div(class="tech-particle", style="left:5%;animation-delay:0s;"),
+          tags$div(class="tech-particle", style="left:15%;animation-delay:3s;"),
+          tags$div(class = "tech-particle", style = "left:25%;animation-delay:6s;"),
+          tags$div(class = "tech-particle", style = "left:35%;animation-delay:9s;"),
+          tags$div(class = "tech-particle", style = "left:45%;animation-delay:12s;"),
+          tags$div(class = "tech-particle", style = "left:55%;animation-delay:15s;"),
+          tags$div(class = "tech-particle", style = "left:65%;animation-delay:18s;"),
+          tags$div(class = "tech-particle", style = "left:75%;animation-delay:1s;"),
+          tags$div(class = "tech-particle", style = "left:85%;animation-delay:4s;"),
+          tags$div(class = "tech-particle", style = "left:95%;animation-delay:7s;")
+      ),
+      div(class="tech-header-container",
+          tags$img(src="electrification.png", style="width:100%;height:220px;object-fit:cover;"),
+          div(class="tech-header-overlay"),
+          div(class="tech-title-neon", style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;", "Suivi technique par projet")
+      ),
+      div(class="tech-intro",
+          fluidRow(
+            column(1, div(class="info-icon", tags$img(src="icon_info.png", width="60px"))),
+            column(11, HTML("Cet onglet présente un état d'avancement détaillé des différentes activités techniques mises en œuvre dans le cadre du Programme d'Urgence de Développement Communautaire (PUDC)."))
+          )
+      ),
+      uiOutput("technique_tabs")
+    )
+  )
+}
+
+# Page Performance
+performance_page <- function() {
+  div(
+    tags$head(tags$link(rel="stylesheet", href="app0.css")),
+    div(
+      class="page",
+      div(style="position: relative; text-align: center;",
+          tags$img(src="poste_sante.png", style="width:100%; filter:blur(2px); height:220px; object-fit:cover;"),
+          div(style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white; font-size:50px; font-weight:bold; text-shadow:2px 2px 6px black; z-index:2;", "Performance en passation des marches")
+      ),
+      div(style="background-color:white; border:2px solid #003366; padding:25px; margin:30px auto; width:90%; border-radius:10px; font-size:15px;",
+          fluidRow(column(1, tags$img(src="icon_info.png", width="60px")),
+                   column(11, HTML("<b>Suivi intégré</b> : Cette section présente l'exécution physique, budgétaire et la performance en passation des marchés pour l'année 2025.")))
+      ),
+      div(style="width:300px; margin:0 auto; text-align:center;", selectInput("projet_pm", "Choisir un projet :", choices=NULL)),
+      br(),
+      fluidRow(column(12,
+        h3("✅ Exécution physique trimestrielle", style="color:#2E86C1; text-align:center; font-weight:bold;"),
+        plotlyOutput("graph_exec_physique", height="400px"),
+        br(),
+        h3("💰 Exécution budgétaire trimestrielle", style="color:#239B56; text-align:center; font-weight:bold;"),
+        plotlyOutput("graph_exec_budget", height="400px"),
+        br(),
+        h3("⚖️ Taux de performance en passation de marchés", style="color:#CA6F1E; text-align:center; font-weight:bold;"),
+        plotlyOutput("graph_pm", height="400px")
+      ))
+    )
+  )
+}
+
+# Page Résumé
+resume_page <- function() {
+  div(
+    tags$head(tags$link(rel="stylesheet", href="app0.css")),
+    div(class="page",
+        h2("Résumé consolidé", style="text-align:center; margin-top:20px;"),
+        tableOutput("resume_table")
+    )
+  )
+}
+
 # ===============================
 # Interface utilisateur
 # ===============================
@@ -224,6 +324,9 @@ ui <- fluidPage(
       div(class = "navbar-menu",
           actionLink("nav_accueil", "🏠 Accueil"),
           actionLink("nav_financier", "💰 Suivi Financier"),
+          actionLink("nav_technique", "🔧 Suivi Technique"),
+          actionLink("nav_performance", "📊 Performance"),
+          actionLink("nav_resume", "📋 Résumé"),
           actionLink("nav_indicateurs", "📊 Réalisation globale des indicateurs"),
           actionLink("nav_assistant", "🤖 Assistant IA")
       )

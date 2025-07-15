@@ -6,6 +6,9 @@ source("ui.R")
 source("server_financier.R")
 source("server_indicateurs.R")
 source("server_assistant_ia.R")
+source("server_technique.R")
+source("server_performance.R")
+source("server_resume.R")
 
 server <- function(input, output, session) {
   # Chargement des données
@@ -20,6 +23,9 @@ server <- function(input, output, session) {
   current_page <- reactiveVal("accueil")
   observeEvent(input$nav_accueil, { current_page("accueil") })
   observeEvent(input$nav_financier, { current_page("financier") })
+  observeEvent(input$nav_technique, { current_page("technique") })
+  observeEvent(input$nav_performance, { current_page("performance") })
+  observeEvent(input$nav_resume, { current_page("resume") })
   observeEvent(input$nav_indicateurs, { current_page("indicateurs") })
   observeEvent(input$nav_assistant, { current_page("assistant") })
 
@@ -27,6 +33,9 @@ server <- function(input, output, session) {
     switch(current_page(),
            "accueil" = accueil_page(),
            "financier" = financier_page(),
+           "technique" = technique_page(),
+           "performance" = performance_page(),
+           "resume" = resume_page(),
            "indicateurs" = indicateurs_page(),
            "assistant" = assistant_page())
   })
@@ -55,6 +64,9 @@ server <- function(input, output, session) {
   init_indicateurs_outputs(output, app_data, input)
   init_indicateurs_observers(input, output, session, app_data)
   init_assistant_ia_outputs(input, output, session, app_data)
+  init_technique_outputs(input, output, session)
+  init_performance_outputs(input, output, session)
+  init_resume_outputs(input, output, session)
 }
 
 shinyApp(ui = ui, server = server)
