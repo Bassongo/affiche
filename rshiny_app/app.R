@@ -10,6 +10,11 @@ library(plotly)
 library(DT)
 library(slickR)
 
+source("modules/home_module.R")
+source("modules/technique_module.R")
+source("modules/performance_module.R")
+source("modules/resume_module.R")
+
 # =============================================================================
 # STRUCTURE DES DONNÉES EXCEL IDENTIFIÉE
 # =============================================================================
@@ -515,10 +520,13 @@ ui <- fluidPage(
       div(class = "navbar-logo", 
           tags$img(src = "logo.png", alt = "Logo PUDC")),
       div(class = "navbar-menu",
-          actionLink("nav_accueil", "🏠 Accueil"),
-          actionLink("nav_financier", "💰 Suivi Financier"),
-          actionLink("nav_indicateurs", "📊 Indicateurs"),
-          actionLink("nav_assistant", "🤖 Assistant IA")
+        actionLink("nav_accueil", "🏠 Accueil"),
+        actionLink("nav_technique", "🔧 Suivi Technique"),
+        actionLink("nav_performance", "📈 Performance PM"),
+        actionLink("nav_financier", "💰 Suivi Financier"),
+        actionLink("nav_indicateurs", "📊 Indicateurs"),
+        actionLink("nav_resume", "📄 Résumé"),
+        actionLink("nav_assistant", "🤖 Assistant IA")
       )
   ),
   
@@ -555,37 +563,31 @@ server <- function(input, output, session) {
   current_page <- reactiveVal("accueil")
   
   observeEvent(input$nav_accueil, { current_page("accueil") })
+  observeEvent(input$nav_technique, { current_page("technique") })
+  observeEvent(input$nav_performance, { current_page("performance") })
   observeEvent(input$nav_financier, { current_page("financier") })
   observeEvent(input$nav_indicateurs, { current_page("indicateurs") })
+  observeEvent(input$nav_resume, { current_page("resume") })
   observeEvent(input$nav_assistant, { current_page("assistant") })
   
   # Affichage de la page courante
   output$main_content <- renderUI({
     switch(current_page(),
-           "accueil" = accueil_page(),
+           "accueil" = homeUI("home"),
+           "technique" = techniqueUI("tech"),
+           "performance" = performanceUI("perf"),
            "financier" = financier_page(),
            "indicateurs" = indicateurs_page(),
+           "resume" = resumeUI("res"),
            "assistant" = assistant_page()
     )
   })
   
-  # Carrousel slickR
-  output$carousel <- renderSlickR({
-    images <- c("piste.png", "electrification.png", "poste_sante.png", "real.png")
-    slickR(images, height = 500, width = "100%") + settings(
-      autoplay = TRUE,
-      autoplaySpeed = 3000,
-      arrows = TRUE,
-      dots = TRUE,
-      infinite = TRUE,
-      fade = FALSE,
-      cssEase = 'ease-in-out',
-      pauseOnHover = TRUE,
-      slidesToShow = 1,
-      slidesToScroll = 1,
-      speed = 1000
-    )
-  })
+
+  homeServer("home")
+  techniqueServer("tech")
+  performanceServer("perf")
+  resumeServer("res")
   
   # Variable réactive pour stocker les projets
   projets_disponibles <- reactiveVal(NULL)
